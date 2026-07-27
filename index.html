@@ -163,8 +163,15 @@
     margin-bottom:8px;
     border-bottom:2px solid var(--gray-200);
     padding-bottom:8px;
+    position:relative;
+    z-index:3;
   }
-  .gantt-header-label{font-size:13px;font-weight:600;color:var(--gray-500);}
+  .gantt-header-label{
+    font-size:13px;font-weight:600;color:var(--gray-500);
+    position:sticky;left:0;z-index:8;background:#fff;
+    border-right:1px solid var(--gray-200);
+    box-shadow:4px 0 6px -4px rgba(0,0,0,.08);
+  }
   .gantt-months{display:flex;}
   .gantt-month{
     flex:1;
@@ -176,7 +183,22 @@
     border-left:1px solid var(--gray-200);
   }
 
-  .gantt-body{position:relative;}
+  .gantt-body{position:relative;padding-top:22px;}
+  .gantt-body::before{
+    content:'';
+    position:sticky;
+    left:0;
+    top:0;
+    display:block;
+    width:200px;
+    height:22px;
+    margin-top:-22px;
+    margin-bottom:0;
+    background:#fff;
+    z-index:8;
+    border-right:1px solid var(--gray-200);
+    box-shadow:4px 0 6px -4px rgba(0,0,0,.08);
+  }
   .gantt-grid{
     position:absolute;
     top:0;left:200px;right:0;bottom:0;
@@ -195,6 +217,7 @@
     min-height:52px;
     border-bottom:1px solid var(--gray-100);
     position:relative;
+    z-index:2;
   }
   .gantt-row:last-child{border-bottom:none;}
   .gantt-task-label{
@@ -206,6 +229,10 @@
     align-items:center;
     gap:6px;
     line-height:1.3;
+    position:sticky;left:0;z-index:8;background:#fff;
+    border-right:1px solid var(--gray-200);
+    box-shadow:4px 0 6px -4px rgba(0,0,0,.08);
+    align-self:stretch;
   }
   .gantt-task-label .label-text{
     word-break:break-word;
@@ -399,6 +426,76 @@
   .event-countdown .big-num{font-size:48px;font-weight:800;line-height:1;}
   .event-countdown .text{font-size:13px;opacity:.85;margin-top:4px;}
 
+  /* ===== CMKT Section ===== */
+  .cmkt-section{margin-bottom:32px;}
+  .cmkt-section .section-title .bar{background:#7c3aed;}
+  .cmkt-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:16px;
+  }
+  .cmkt-card{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+    border-left:4px solid #a855f7;
+    transition:transform .2s,box-shadow .2s;
+    position:relative;
+  }
+  .cmkt-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+  .cmkt-card-header{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .cmkt-card-icon{
+    font-size:24px;
+    flex-shrink:0;
+    line-height:1;
+    margin-top:2px;
+  }
+  .cmkt-card-title{
+    font-size:15px;
+    font-weight:700;
+    color:var(--gray-800);
+    line-height:1.4;
+    flex:1;
+    min-width:0;
+    word-break:break-word;
+    overflow-wrap:break-word;
+  }
+  .cmkt-card-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:12px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .cmkt-badge-pending{background:#f3e8ff;color:#7c3aed;}
+  .cmkt-badge-progress{background:#fef3c7;color:#92400e;}
+  .cmkt-badge-done{background:#dcfce7;color:#15803d;}
+  .cmkt-card-note{
+    font-size:13px;
+    color:var(--gray-500);
+    line-height:1.5;
+    word-break:break-word;
+    overflow-wrap:break-word;
+  }
+  .cmkt-card-owner{
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    color:var(--gray-400);
+  }
+
   /* ===== Footer ===== */
   .footer{
     text-align:center;
@@ -532,6 +629,16 @@
       <span class="count" id="taskCount">4项</span>
     </div>
     <div class="tasks-grid" id="tasksGrid"></div>
+  </div>
+
+  <!-- CMKT Section -->
+  <div class="cmkt-section">
+    <div class="section-title">
+      <span class="bar"></span>
+      <span>CMKT部门跟进事项</span>
+      <span class="count" id="cmktCount">5项</span>
+    </div>
+    <div class="cmkt-grid" id="cmktGrid"></div>
   </div>
 
   <!-- Event Banner -->
@@ -706,7 +813,7 @@ const ganttBody = document.getElementById('ganttBody');
 // Today line position
 const todayPercent = (daysBetween(ganttStart, today) / ganttTotalDays) * 100;
 
-tasks.forEach(task => {
+tasks.forEach((task, taskIdx) => {
   const taskDate = new Date(task.deadline + 'T00:00:00');
   const daysFromStart = daysBetween(ganttStart, taskDate);
   const leftPercent = (daysFromStart / ganttTotalDays) * 100;
@@ -780,82 +887,23 @@ tasks.forEach(task => {
     : '⏰ ' + formatDateFull(taskDate);
   barContainer.appendChild(dlLabel);
 
+  // Today line inside each bar-container (within row's stacking context, covered by sticky label)
+  const tLine = document.createElement('div');
+  tLine.style.cssText = `position:absolute;top:${taskIdx===0?'-20px':'0'};bottom:0;left:${todayPercent}%;width:2px;background:#dc2626;z-index:2;pointer-events:none;`;
+  barContainer.appendChild(tLine);
+
+  // "今天" label on first row only — sits in the gantt-body padding-top area
+  if(taskIdx === 0){
+    const tLabel = document.createElement('div');
+    tLabel.style.cssText = `position:absolute;top:-20px;left:${todayPercent}%;transform:translateX(-50%);background:#dc2626;color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap;z-index:7;pointer-events:none;box-shadow:0 1px 4px rgba(220,38,38,.4);`;
+    tLabel.textContent = '今天';
+    barContainer.appendChild(tLabel);
+  }
+
   row.appendChild(label);
   row.appendChild(barContainer);
   ganttBody.appendChild(row);
 });
-
-// Add today line to each row (simplified: add as overlay)
-const todayLine = document.createElement('div');
-todayLine.style.position = 'absolute';
-todayLine.style.top = '0';
-todayLine.style.bottom = '0';
-todayLine.style.left = `calc(200px + ${todayPercent}% * (100% - 200px) / 100%)`;
-todayLine.style.width = '2px';
-todayLine.style.background = '#dc2626';
-todayLine.style.zIndex = '4';
-
-// Better approach: add today line as a fixed positioned element in gantt body
-const todayLineWrap = document.createElement('div');
-todayLineWrap.style.position = 'absolute';
-todayLineWrap.style.top = '-28px';
-todayLineWrap.style.bottom = '0';
-todayLineWrap.style.left = todayPercent + '%';
-todayLineWrap.style.width = '2px';
-todayLineWrap.style.background = '#dc2626';
-todayLineWrap.style.zIndex = '4';
-todayLineWrap.style.pointerEvents = 'none';
-
-const todayLabel = document.createElement('div');
-todayLabel.style.position = 'absolute';
-todayLabel.style.top = '0';
-todayLabel.style.left = '50%';
-todayLabel.style.transform = 'translateX(-50%)';
-todayLabel.style.background = '#dc2626';
-todayLabel.style.color = '#fff';
-todayLabel.style.fontSize = '11px';
-todayLabel.style.fontWeight = '600';
-todayLabel.style.padding = '2px 8px';
-todayLabel.style.borderRadius = '4px';
-todayLabel.style.whiteSpace = 'nowrap';
-todayLabel.textContent = '今天 ' + formatDate(today);
-todayLineWrap.appendChild(todayLabel);
-
-// Add to gantt body - but need to position relative to the bar area (after 200px label column)
-// We'll add it inside a wrapper
-const ganttBarArea = document.createElement('div');
-ganttBarArea.style.position = 'absolute';
-ganttBarArea.style.left = '200px';
-ganttBarArea.style.right = '0';
-ganttBarArea.style.top = '0';
-ganttBarArea.style.bottom = '0';
-ganttBarArea.style.pointerEvents = 'none';
-
-const todayLine2 = document.createElement('div');
-todayLine2.style.position = 'absolute';
-todayLine2.style.top = '-28px';
-todayLine2.style.bottom = '0';
-todayLine2.style.left = todayPercent + '%';
-todayLine2.style.width = '2px';
-todayLine2.style.background = '#dc2626';
-todayLine2.style.zIndex = '10';
-
-const todayLabel2 = document.createElement('div');
-todayLabel2.style.position = 'absolute';
-todayLabel2.style.top = '-22px';
-todayLabel2.style.left = todayPercent + '%';
-todayLabel2.style.transform = 'translateX(-50%)';
-todayLabel2.style.background = '#dc2626';
-todayLabel2.style.color = '#fff';
-todayLabel2.style.fontSize = '10px';
-todayLabel2.style.fontWeight = '600';
-todayLabel2.style.padding = '2px 6px';
-todayLabel2.style.borderRadius = '4px';
-todayLabel2.style.whiteSpace = 'nowrap';
-todayLabel2.textContent = '今天';
-ganttBarArea.appendChild(todayLine2);
-ganttBarArea.appendChild(todayLabel2);
-ganttBody.appendChild(ganttBarArea);
 
 // ===== Adjust row heights to fit wrapped bar text =====
 const ganttBars = ganttBody.querySelectorAll('.gantt-bar');
@@ -930,6 +978,43 @@ tasks.forEach(task => {
     </div>
   `;
   tasksGrid.appendChild(card);
+});
+
+// ===== CMKT Department Items =====
+const cmktItems = [
+  { id:1, title:'酒店预定',     icon:'🏨', status:'pending',  note:'确认参会人员住宿酒店及房间数量' },
+  { id:2, title:'展位画面',     icon:'🖼️', status:'pending',  note:'展位设计画面确认与制作跟进' },
+  { id:3, title:'费用预算',     icon:'💰', status:'pending',  note:'整体参会费用预算编制与审批' },
+  { id:4, title:'媒体计划',     icon:'📢', status:'pending',  note:'大会期间媒体传播与报道计划' },
+  { id:5, title:'专题会时间和日程', icon:'📅', status:'pending',  note:'专题研讨会时间安排与议程确认' },
+];
+
+const cmktStatusMap = {
+  pending:  { cls:'cmkt-badge-pending',  text:'待跟进' },
+  progress: { cls:'cmkt-badge-progress', text:'进行中' },
+  done:     { cls:'cmkt-badge-done',     text:'已完成' },
+};
+
+const cmktGrid = document.getElementById('cmktGrid');
+document.getElementById('cmktCount').textContent = cmktItems.length + '项';
+
+cmktItems.forEach(item => {
+  const s = cmktStatusMap[item.status] || cmktStatusMap.pending;
+  const card = document.createElement('div');
+  card.className = 'cmkt-card';
+  card.innerHTML = `
+    <div class="cmkt-card-header">
+      <span class="cmkt-card-icon">${item.icon}</span>
+      <div class="cmkt-card-title">${item.title}</div>
+      <span class="cmkt-card-status ${s.cls}">${s.text}</span>
+    </div>
+    <div class="cmkt-card-note">${item.note}</div>
+    <div class="cmkt-card-owner">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span>CMKT部门</span>
+    </div>
+  `;
+  cmktGrid.appendChild(card);
 });
 </script>
 
