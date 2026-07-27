@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCO学术年会 · 项目进度看板</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --primary:#2563eb;
+    --primary-dark:#1e40af;
+    --primary-light:#dbeafe;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --gray-50:#f8fafc;
+    --gray-100:#f1f5f9;
+    --gray-200:#e2e8f0;
+    --gray-300:#cbd5e1;
+    --gray-400:#94a3b8;
+    --gray-500:#64748b;
+    --gray-600:#475569;
+    --gray-700:#334155;
+    --gray-800:#1e293b;
+    --gray-900:#0f172a;
+    --radius:12px;
+    --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+    --shadow-lg:0 10px 30px rgba(0,0,0,.08),0 3px 10px rgba(0,0,0,.04);
+  }
+  body{
+    font-family:'-apple-system','BlinkMacSystemFont','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background:var(--gray-100);
+    color:var(--gray-800);
+    line-height:1.6;
+    min-height:100vh;
+  }
+
+  /* ===== Header ===== */
+  .header{
+    background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#3b82f6 100%);
+    color:#fff;
+    padding:32px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header::after{
+    content:'';
+    position:absolute;
+    top:-50%;right:-10%;
+    width:500px;height:500px;
+    background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);
+    border-radius:50%;
+  }
+  .header-content{position:relative;z-index:1;max-width:1400px;margin:0 auto;}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;}
+  .header-left .tag{
+    display:inline-block;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+    padding:4px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:500;
+    margin-bottom:12px;
+    letter-spacing:.5px;
+  }
+  .header-left h1{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
+    letter-spacing:-.5px;
+  }
+  .header-left .subtitle{
+    font-size:15px;
+    opacity:.85;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .header-left .subtitle .dot{width:4px;height:4px;background:rgba(255,255,255,.5);border-radius:50%;}
+  .header-right{display:flex;gap:16px;}
+  .countdown-card{
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:var(--radius);
+    padding:14px 22px;
+    text-align:center;
+    min-width:120px;
+  }
+  .countdown-card .num{font-size:32px;font-weight:800;line-height:1;}
+  .countdown-card .label{font-size:12px;opacity:.8;margin-top:4px;letter-spacing:1px;}
+
+  /* ===== Main ===== */
+  .main{max-width:1400px;margin:0 auto;padding:28px 40px 60px;}
+
+  /* Stats Row */
+  .stats-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:28px;
+  }
+  .stat-card{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:20px 24px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+  .stat-icon{
+    width:48px;height:48px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+  }
+  .stat-icon.blue{background:#dbeafe;color:#2563eb;}
+  .stat-icon.green{background:#dcfce7;color:#16a34a;}
+  .stat-icon.amber{background:#fef3c7;color:#d97706;}
+  .stat-icon.purple{background:#f3e8ff;color:#9333ea;}
+  .stat-info .stat-value{font-size:24px;font-weight:700;color:var(--gray-900);line-height:1.2;}
+  .stat-info .stat-label{font-size:13px;color:var(--gray-500);}
+
+  /* ===== Section Title ===== */
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:18px;
+    font-weight:700;
+    color:var(--gray-800);
+    margin-bottom:16px;
+  }
+  .section-title .bar{width:4px;height:20px;background:var(--primary);border-radius:2px;}
+  .section-title .count{
+    background:var(--gray-200);
+    color:var(--gray-600);
+    font-size:12px;
+    padding:2px 10px;
+    border-radius:10px;
+    font-weight:600;
+  }
+
+  /* ===== Gantt Timeline ===== */
+  .gantt-section{margin-bottom:32px;}
+  .gantt-wrap{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:24px;
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .gantt-header{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:0;
+    margin-bottom:8px;
+    border-bottom:2px solid var(--gray-200);
+    padding-bottom:8px;
+  }
+  .gantt-header-label{font-size:13px;font-weight:600;color:var(--gray-500);}
+  .gantt-months{display:flex;}
+  .gantt-month{
+    flex:1;
+    text-align:center;
+    font-size:12px;
+    font-weight:600;
+    color:var(--gray-500);
+    padding:4px 0;
+    border-left:1px solid var(--gray-200);
+  }
+
+  .gantt-body{position:relative;}
+  .gantt-grid{
+    position:absolute;
+    top:0;left:200px;right:0;bottom:0;
+    display:flex;
+    pointer-events:none;
+  }
+  .gantt-grid-line{
+    flex:1;
+    border-left:1px dashed var(--gray-200);
+  }
+
+  .gantt-row{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    align-items:center;
+    height:52px;
+    border-bottom:1px solid var(--gray-100);
+    position:relative;
+  }
+  .gantt-row:last-child{border-bottom:none;}
+  .gantt-task-label{
+    padding:0 12px;
+    font-size:13px;
+    font-weight:500;
+    color:var(--gray-700);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .gantt-task-label .status-dot{
+    width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  }
+  .gantt-bar-container{
+    position:relative;
+    height:100%;
+    display:flex;
+    align-items:center;
+  }
+  .gantt-bar{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    height:22px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    padding:0 8px;
+    font-size:11px;
+    font-weight:600;
+    color:#fff;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    min-width:6px;
+  }
+  .gantt-bar:hover{z-index:5;filter:brightness(1.05);}
+  .gantt-bar.event{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+  .gantt-bar.task-upcoming{background:linear-gradient(135deg,#2563eb,#3b82f6);}
+  .gantt-bar.task-soon{background:linear-gradient(135deg,#f59e0b,#fbbf24);}
+  .gantt-bar.task-done{background:linear-gradient(135deg,#16a34a,#22c55e);}
+  .gantt-milestone{
+    position:absolute;
+    top:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    width:14px;height:14px;
+    border:2px solid #fff;
+    z-index:3;
+  }
+  .gantt-deadline-label{
+    position:absolute;
+    top:50%;
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:10px;
+    white-space:nowrap;
+    z-index:6;
+    background:#fff;
+    border-width:1.5px;
+    border-style:solid;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+    line-height:1.3;
+  }
+  .gantt-today-line{
+    position:absolute;
+    top:0;bottom:0;
+    width:2px;
+    background:var(--danger);
+    z-index:4;
+  }
+  .gantt-today-label{
+    position:absolute;
+    top:-20px;
+    transform:translateX(-50%);
+    background:var(--danger);
+    color:#fff;
+    font-size:11px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:4px;
+    white-space:nowrap;
+  }
+
+  /* ===== Task Cards ===== */
+  .tasks-section{margin-bottom:32px;}
+  .tasks-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:16px;
+  }
+  .task-card{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+    border-left:4px solid var(--gray-300);
+    transition:transform .2s,box-shadow .2s;
+    position:relative;
+  }
+  .task-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+  .task-card.status-upcoming{border-left-color:var(--primary);}
+  .task-card.status-soon{border-left-color:var(--warning);}
+  .task-card.status-done{border-left-color:var(--success);}
+  .task-card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:12px;
+    gap:12px;
+  }
+  .task-card-title{font-size:15px;font-weight:700;color:var(--gray-800);line-height:1.4;}
+  .task-badge{
+    font-size:11px;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:12px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge-upcoming{background:var(--primary-light);color:var(--primary-dark);}
+  .badge-soon{background:#fef3c7;color:#92400e;}
+  .badge-done{background:#dcfce7;color:#15803d;}
+  .task-meta{display:flex;flex-direction:column;gap:8px;}
+  .task-meta-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-500);}
+  .task-meta-row svg{width:14px;height:14px;flex-shrink:0;}
+  .task-meta-row .value{color:var(--gray-700);font-weight:500;}
+  .task-progress-wrap{
+    margin-top:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .task-progress-bar{
+    flex:1;
+    height:6px;
+    background:var(--gray-200);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .task-progress-fill{
+    height:100%;
+    border-radius:3px;
+    transition:width .5s ease;
+  }
+  .task-progress-text{font-size:12px;font-weight:600;color:var(--gray-500);min-width:36px;text-align:right;}
+  .task-countdown{
+    margin-top:10px;
+    padding:8px 12px;
+    background:var(--gray-50);
+    border-radius:8px;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .task-countdown .days{font-weight:700;color:var(--gray-800);}
+  .task-countdown.urgent{background:#fef2f2;}
+  .task-countdown.urgent .days{color:var(--danger);}
+
+  /* ===== Event Info ===== */
+  .event-section{margin-bottom:20px;}
+  .event-banner{
+    background:linear-gradient(135deg,#7c3aed 0%,#9333ea 50%,#a855f7 100%);
+    border-radius:var(--radius);
+    padding:28px 32px;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    box-shadow:var(--shadow-lg);
+    position:relative;
+    overflow:hidden;
+  }
+  .event-banner::after{
+    content:'';
+    position:absolute;
+    top:-30%;right:-5%;
+    width:300px;height:300px;
+    background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);
+    border-radius:50%;
+  }
+  .event-info{position:relative;z-index:1;}
+  .event-info .label{font-size:12px;text-transform:uppercase;letter-spacing:2px;opacity:.8;margin-bottom:6px;}
+  .event-info .name{font-size:22px;font-weight:700;margin-bottom:8px;}
+  .event-info .date{font-size:14px;opacity:.9;display:flex;align-items:center;gap:6px;}
+  .event-countdown{text-align:center;position:relative;z-index:1;}
+  .event-countdown .big-num{font-size:48px;font-weight:800;line-height:1;}
+  .event-countdown .text{font-size:13px;opacity:.85;margin-top:4px;}
+
+  /* ===== Footer ===== */
+  .footer{
+    text-align:center;
+    padding:20px;
+    font-size:12px;
+    color:var(--gray-400);
+  }
+  .footer .updated{display:inline-flex;align-items:center;gap:6px;}
+
+  @media(max-width:900px){
+    .header{padding:24px 20px;}
+    .main{padding:20px;}
+    .stats-row{grid-template-columns:repeat(2,1fr);}
+    .header-right{flex-wrap:wrap;}
+  }
+  @media(max-width:600px){
+    .stats-row{grid-template-columns:1fr;}
+    .header-left h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-top">
+      <div class="header-left">
+        <span class="tag">📋 项目管理看板</span>
+        <h1>CSCO学术年会 · 参会项目</h1>
+        <div class="subtitle">
+          <span>2026年9月16日 - 19日</span>
+          <span class="dot"></span>
+          <span>第X届CSCO学术年会</span>
+          <span class="dot"></span>
+          <span id="todayDate"></span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="countdown-card">
+          <div class="num" id="daysToEvent">--</div>
+          <div class="label">距大会开幕</div>
+        </div>
+        <div class="countdown-card">
+          <div class="num" id="totalTasks">4</div>
+          <div class="label">计划任务数</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Main ===== -->
+<div class="main">
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="stat-info">
+        <div class="stat-value" id="statDone">0</div>
+        <div class="stat-label">已完成任务</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon amber">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="stat-info">
+        <div class="stat-value" id="statPending">4</div>
+        <div class="stat-label">待完成任务</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="stat-info">
+        <div class="stat-value" id="statProgress">0%</div>
+        <div class="stat-label">整体进度</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="stat-info">
+        <div class="stat-value" id="statPeople">待定</div>
+        <div class="stat-label">立项人数</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gantt Timeline -->
+  <div class="gantt-section">
+    <div class="section-title">
+      <span class="bar"></span>
+      <span>项目时间轴</span>
+      <span class="count">Gantt View</span>
+    </div>
+    <div class="gantt-wrap">
+      <div class="gantt-header">
+        <div class="gantt-header-label">任务 / 里程碑</div>
+        <div class="gantt-months" id="ganttMonths"></div>
+      </div>
+      <div class="gantt-body" id="ganttBody"></div>
+    </div>
+  </div>
+
+  <!-- Task Cards -->
+  <div class="tasks-section">
+    <div class="section-title">
+      <span class="bar"></span>
+      <span>任务详情</span>
+      <span class="count" id="taskCount">4项</span>
+    </div>
+    <div class="tasks-grid" id="tasksGrid"></div>
+  </div>
+
+  <!-- Event Banner -->
+  <div class="event-section">
+    <div class="event-banner">
+      <div class="event-info">
+        <div class="label">🎯 核心里程碑</div>
+        <div class="name">CSCO学术年会正式召开</div>
+        <div class="date">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>2026年9月16日 - 19日 · 为期4天</span>
+        </div>
+      </div>
+      <div class="event-countdown">
+        <div class="big-num" id="eventBigNum">--</div>
+        <div class="text">天</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="updated">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>最后更新：<span id="updateTime"></span> · 数据自动计算</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== Config =====
+const today = new Date('2026-07-27T00:00:00');
+const eventStart = new Date('2026-09-16T00:00:00');
+const eventEnd = new Date('2026-09-19T00:00:00');
+
+const tasks = [
+  {
+    id:1,
+    title:'确定立项人数',
+    deadline:'2026-07-30',
+    type:'task',
+    desc:'完成参会人员名单确认，明确立项总人数',
+    icon:'👥',
+    progress:0
+  },
+  {
+    id:2,
+    title:'第一轮邀请沟通',
+    deadline:'2026-08-03',
+    type:'milestone',
+    desc:'召开第一轮邀请沟通会，同步大会信息与参会安排',
+    icon:'📧',
+    progress:0
+  },
+  {
+    id:3,
+    title:'第一轮邀请&团队注册截止',
+    deadline:'2026-08-14',
+    type:'task',
+    desc:'第一轮邀请收尾，团队完成CSCO大会统一注册报名',
+    icon:'✅',
+    progress:0
+  },
+  {
+    id:4,
+    title:'第二轮行前沟通',
+    deadline:'2026-09-01',
+    type:'milestone',
+    desc:'召开第二轮行前沟通会，确认行程、住宿、分工等细节',
+    icon:'🧳',
+    progress:0
+  },
+  {
+    id:5,
+    title:'第二轮行程确定',
+    startDate:'2026-08-14',
+    deadline:'2026-09-01',
+    type:'task',
+    desc:'确定第二轮行程安排，注册替换名额保留10%',
+    icon:'🧭',
+    progress:0,
+    note:'注册替换名额 10%'
+  },
+  {
+    id:6,
+    title:'CSCO学术年会报道日',
+    deadline:'2026-09-16',
+    type:'milestone',
+    desc:'大会报到日，CSCO学术年会正式开启',
+    icon:'🎯',
+    progress:0
+  },
+  {
+    id:7,
+    title:'立项流程发起和执行方确定',
+    deadline:'2026-08-01',
+    type:'task',
+    desc:'发起立项审批流程，明确各环节执行方与责任人',
+    icon:'📝',
+    progress:0
+  }
+];
+
+// Sort tasks by effective start date (startDate || deadline) for chronological display
+tasks.sort((a,b) => {
+  const da = new Date((a.startDate || a.deadline) + 'T00:00:00');
+  const db = new Date((b.startDate || b.deadline) + 'T00:00:00');
+  return da - db;
+});
+
+// ===== Helpers =====
+function daysBetween(d1,d2){
+  return Math.round((d2-d1)/(1000*60*60*24));
+}
+function formatDate(d){
+  const m=d.getMonth()+1;
+  const day=d.getDate();
+  return `${m}月${day}日`;
+}
+function formatDateFull(d){
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+// ===== Render Header Info =====
+document.getElementById('todayDate').textContent = `今日 ${formatDate(today)}`;
+const daysToEvent = daysBetween(today, eventStart);
+document.getElementById('daysToEvent').textContent = daysToEvent;
+document.getElementById('eventBigNum').textContent = daysToEvent;
+
+const doneCount = tasks.filter(t => t.progress >= 100).length;
+const pendingCount = tasks.length - doneCount;
+const overallProgress = Math.round(tasks.reduce((s,t)=>s+t.progress,0) / tasks.length);
+document.getElementById('statDone').textContent = doneCount;
+document.getElementById('statPending').textContent = pendingCount;
+document.getElementById('statProgress').textContent = overallProgress + '%';
+document.getElementById('totalTasks').textContent = tasks.length;
+document.getElementById('taskCount').textContent = tasks.length + '项';
+
+document.getElementById('updateTime').textContent = formatDateFull(today) + ' 10:24';
+
+// ===== Render Gantt =====
+const ganttStart = new Date('2026-07-25T00:00:00');
+const ganttEnd = new Date('2026-09-20T00:00:00');
+const ganttTotalDays = daysBetween(ganttStart, ganttEnd);
+
+// Months
+const months = [];
+let cursor = new Date(ganttStart);
+while(cursor <= ganttEnd){
+  months.push(new Date(cursor));
+  cursor = new Date(cursor.getFullYear(), cursor.getMonth()+1, 1);
+}
+const monthsContainer = document.getElementById('ganttMonths');
+months.forEach(m => {
+  const div = document.createElement('div');
+  div.className = 'gantt-month';
+  const daysInMonth = new Date(m.getFullYear(), m.getMonth()+1, 0).getDate();
+  const startDay = m.getTime() === ganttStart.getTime() ? ganttStart.getDate() : 1;
+  const endDay = (m.getMonth() === ganttEnd.getMonth() && m.getFullYear() === ganttEnd.getFullYear()) ? ganttEnd.getDate() : daysInMonth;
+  const span = endDay - startDay + 1;
+  div.style.flex = span;
+  div.textContent = `${m.getMonth()+1}月`;
+  monthsContainer.appendChild(div);
+});
+
+// Gantt body
+const ganttBody = document.getElementById('ganttBody');
+
+// Today line position
+const todayPercent = (daysBetween(ganttStart, today) / ganttTotalDays) * 100;
+
+tasks.forEach(task => {
+  const taskDate = new Date(task.deadline + 'T00:00:00');
+  const daysFromStart = daysBetween(ganttStart, taskDate);
+  const leftPercent = (daysFromStart / ganttTotalDays) * 100;
+
+  // Status
+  const daysLeft = daysBetween(today, taskDate);
+  let statusClass, dotColor, statusColor;
+  if(task.progress >= 100){
+    statusClass = 'task-done'; dotColor = '#16a34a'; statusColor = '#16a34a';
+  } else if(daysLeft <= 7){
+    statusClass = 'task-soon'; dotColor = '#f59e0b'; statusColor = '#d97706';
+  } else {
+    statusClass = 'task-upcoming'; dotColor = '#2563eb'; statusColor = '#2563eb';
+  }
+
+  const row = document.createElement('div');
+  row.className = 'gantt-row';
+
+  // Label column (left): icon + name
+  const label = document.createElement('div');
+  label.className = 'gantt-task-label';
+  label.innerHTML = `<span class="status-dot" style="background:${dotColor}"></span>${task.icon} ${task.title}`;
+
+  const barContainer = document.createElement('div');
+  barContainer.className = 'gantt-bar-container';
+
+  // Bar (task) or diamond (milestone) — text constrained inside, never overflows
+  if(task.type === 'milestone'){
+    const milestone = document.createElement('div');
+    milestone.className = 'gantt-milestone';
+    milestone.style.left = leftPercent + '%';
+    milestone.style.background = statusColor;
+    milestone.style.boxShadow = `0 0 0 1px ${statusColor}`;
+    milestone.title = `${task.title} · ${formatDateFull(taskDate)}`;
+    barContainer.appendChild(milestone);
+  } else {
+    // Bar spans from start (or project start) to the deadline
+    const startPct = task.startDate
+      ? (daysBetween(ganttStart, new Date(task.startDate + 'T00:00:00')) / ganttTotalDays) * 100
+      : 0;
+    const bar = document.createElement('div');
+    bar.className = 'gantt-bar ' + statusClass;
+    bar.style.left = startPct + '%';
+    bar.style.width = (leftPercent - startPct) + '%';
+    bar.textContent = task.title;
+    bar.title = task.startDate
+      ? `${task.title} · ${formatDateFull(new Date(task.startDate+'T00:00:00'))} 至 ${formatDateFull(taskDate)}`
+      : `${task.title} · 截止 ${formatDateFull(taskDate)}`;
+    barContainer.appendChild(bar);
+  }
+
+  // Clear deadline label at the deadline point (always visible, anchored to avoid edge overflow)
+  const dlLabel = document.createElement('div');
+  dlLabel.className = 'gantt-deadline-label';
+  dlLabel.style.borderColor = statusColor;
+  dlLabel.style.color = statusColor;
+  let tf, leftVal;
+  if(leftPercent > 82){
+    // near right edge: place label to the LEFT of the marker
+    tf = 'translate(calc(-100% - 12px),-50%)';
+    leftVal = leftPercent + '%';
+  } else {
+    // place label to the RIGHT of the marker
+    tf = 'translate(0,-50%)';
+    leftVal = `calc(${leftPercent}% + 12px)`;
+  }
+  dlLabel.style.transform = tf;
+  dlLabel.style.left = leftVal;
+  dlLabel.textContent = task.startDate
+    ? formatDateFull(new Date(task.startDate+'T00:00:00')) + ' → ' + formatDateFull(taskDate)
+    : '⏰ ' + formatDateFull(taskDate);
+  barContainer.appendChild(dlLabel);
+
+  row.appendChild(label);
+  row.appendChild(barContainer);
+  ganttBody.appendChild(row);
+});
+
+// Add today line to each row (simplified: add as overlay)
+const todayLine = document.createElement('div');
+todayLine.style.position = 'absolute';
+todayLine.style.top = '0';
+todayLine.style.bottom = '0';
+todayLine.style.left = `calc(200px + ${todayPercent}% * (100% - 200px) / 100%)`;
+todayLine.style.width = '2px';
+todayLine.style.background = '#dc2626';
+todayLine.style.zIndex = '4';
+
+// Better approach: add today line as a fixed positioned element in gantt body
+const todayLineWrap = document.createElement('div');
+todayLineWrap.style.position = 'absolute';
+todayLineWrap.style.top = '-28px';
+todayLineWrap.style.bottom = '0';
+todayLineWrap.style.left = todayPercent + '%';
+todayLineWrap.style.width = '2px';
+todayLineWrap.style.background = '#dc2626';
+todayLineWrap.style.zIndex = '4';
+todayLineWrap.style.pointerEvents = 'none';
+
+const todayLabel = document.createElement('div');
+todayLabel.style.position = 'absolute';
+todayLabel.style.top = '0';
+todayLabel.style.left = '50%';
+todayLabel.style.transform = 'translateX(-50%)';
+todayLabel.style.background = '#dc2626';
+todayLabel.style.color = '#fff';
+todayLabel.style.fontSize = '11px';
+todayLabel.style.fontWeight = '600';
+todayLabel.style.padding = '2px 8px';
+todayLabel.style.borderRadius = '4px';
+todayLabel.style.whiteSpace = 'nowrap';
+todayLabel.textContent = '今天 ' + formatDate(today);
+todayLineWrap.appendChild(todayLabel);
+
+// Add to gantt body - but need to position relative to the bar area (after 200px label column)
+// We'll add it inside a wrapper
+const ganttBarArea = document.createElement('div');
+ganttBarArea.style.position = 'absolute';
+ganttBarArea.style.left = '200px';
+ganttBarArea.style.right = '0';
+ganttBarArea.style.top = '0';
+ganttBarArea.style.bottom = '0';
+ganttBarArea.style.pointerEvents = 'none';
+
+const todayLine2 = document.createElement('div');
+todayLine2.style.position = 'absolute';
+todayLine2.style.top = '-28px';
+todayLine2.style.bottom = '0';
+todayLine2.style.left = todayPercent + '%';
+todayLine2.style.width = '2px';
+todayLine2.style.background = '#dc2626';
+todayLine2.style.zIndex = '10';
+
+const todayLabel2 = document.createElement('div');
+todayLabel2.style.position = 'absolute';
+todayLabel2.style.top = '-22px';
+todayLabel2.style.left = todayPercent + '%';
+todayLabel2.style.transform = 'translateX(-50%)';
+todayLabel2.style.background = '#dc2626';
+todayLabel2.style.color = '#fff';
+todayLabel2.style.fontSize = '10px';
+todayLabel2.style.fontWeight = '600';
+todayLabel2.style.padding = '2px 6px';
+todayLabel2.style.borderRadius = '4px';
+todayLabel2.style.whiteSpace = 'nowrap';
+todayLabel2.textContent = '今天';
+ganttBarArea.appendChild(todayLine2);
+ganttBarArea.appendChild(todayLabel2);
+ganttBody.appendChild(ganttBarArea);
+
+// ===== Render Task Cards =====
+const tasksGrid = document.getElementById('tasksGrid');
+
+tasks.forEach(task => {
+  const taskDate = new Date(task.deadline + 'T00:00:00');
+  const daysLeft = daysBetween(today, taskDate);
+
+  let badgeClass, badgeText, cardClass, progressColor;
+  if(task.progress >= 100){
+    badgeClass = 'badge-done'; badgeText = '✅ 已完成'; cardClass = 'status-done'; progressColor = '#16a34a';
+  } else if(daysLeft <= 7){
+    badgeClass = 'badge-soon'; badgeText = '⏰ 即将到期'; cardClass = 'status-soon'; progressColor = '#f59e0b';
+  } else {
+    badgeClass = 'badge-upcoming'; badgeText = '📋 待启动'; cardClass = 'status-upcoming'; progressColor = '#2563eb';
+  }
+
+  const isUrgent = daysLeft <= 7;
+
+  const startDateObj = task.startDate ? new Date(task.startDate + 'T00:00:00') : null;
+  const dateRowHtml = startDateObj
+    ? `起止日期：<span class="value">${formatDateFull(startDateObj)} 至 ${formatDateFull(taskDate)}</span>`
+    : `截止日期：<span class="value">${formatDateFull(taskDate)}</span>`;
+  const noteRowHtml = task.note
+    ? `<div class="task-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span>备注：<span class="value" style="color:#9333ea;font-weight:700">${task.note}</span></span></div>`
+    : '';
+
+  const card = document.createElement('div');
+  card.className = `task-card ${cardClass}`;
+  card.innerHTML = `
+    <div class="task-card-header">
+      <div class="task-card-title">${task.icon} ${task.title}</div>
+      <span class="task-badge ${badgeClass}">${badgeText}</span>
+    </div>
+    <div class="task-meta">
+      <div class="task-meta-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>${dateRowHtml}</span>
+      </div>
+      <div class="task-meta-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>任务类型：<span class="value">${task.type === 'milestone' ? '关键里程碑' : (startDateObj ? '周期任务' : '常规任务')}</span></span>
+      </div>
+      <div class="task-meta-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span style="font-size:12px">${task.desc}</span>
+      </div>
+      ${noteRowHtml}
+    </div>
+    <div class="task-progress-wrap">
+      <div class="task-progress-bar">
+        <div class="task-progress-fill" style="width:${task.progress}%;background:${progressColor}"></div>
+      </div>
+      <span class="task-progress-text">${task.progress}%</span>
+    </div>
+    <div class="task-countdown ${isUrgent ? 'urgent' : ''}">
+      <span>${daysLeft > 0 ? '距截止还有' : (daysLeft === 0 ? '今天截止' : '已逾期')}</span>
+      <span class="days">${daysLeft > 0 ? daysLeft + ' 天' : (daysLeft === 0 ? '今天' : Math.abs(daysLeft) + ' 天')}</span>
+    </div>
+  `;
+  tasksGrid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
