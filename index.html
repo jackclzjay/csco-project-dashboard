@@ -673,7 +673,7 @@
 
 <script>
 // ===== Config =====
-const today = new Date('2026-07-27T00:00:00');
+const today = new Date('2026-08-03T00:00:00');
 const eventStart = new Date('2026-09-16T00:00:00');
 const eventEnd = new Date('2026-09-19T00:00:00');
 
@@ -782,8 +782,9 @@ document.getElementById('statPending').textContent = pendingCount;
 document.getElementById('statProgress').textContent = overallProgress + '%';
 document.getElementById('totalTasks').textContent = tasks.length;
 document.getElementById('taskCount').textContent = tasks.length + '项';
+document.getElementById('statPeople').textContent = '374';
 
-document.getElementById('updateTime').textContent = formatDateFull(today) + ' 10:24';
+document.getElementById('updateTime').textContent = formatDateFull(today) + ' 10:05';
 
 // ===== Render Gantt =====
 const ganttStart = new Date('2026-07-25T00:00:00');
