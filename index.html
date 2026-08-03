@@ -683,9 +683,9 @@ const tasks = [
     title:'确定立项人数',
     deadline:'2026-07-30',
     type:'task',
-    desc:'完成参会人员名单确认，明确立项总人数',
+    desc:'北区169人、南区105人、东区100人，合计374人',
     icon:'👥',
-    progress:0
+    progress:100
   },
   {
     id:2,
@@ -985,11 +985,10 @@ tasks.forEach(task => {
 
 // ===== CMKT Department Items =====
 const cmktItems = [
-  { id:1, title:'酒店预定',     icon:'🏨', status:'pending',  note:'确认参会人员住宿酒店及房间数量' },
-  { id:2, title:'展位画面',     icon:'🖼️', status:'pending',  note:'展位设计画面确认与制作跟进' },
-  { id:3, title:'费用预算',     icon:'💰', status:'pending',  note:'整体参会费用预算编制与审批' },
-  { id:4, title:'媒体计划',     icon:'📢', status:'pending',  note:'大会期间媒体传播与报道计划' },
-  { id:5, title:'专题会时间和日程', icon:'📅', status:'pending',  note:'专题研讨会时间安排与议程确认' },
+  { id:1, title:'展台和插页材料',       icon:'🖼️', status:'progress', note:'材料沟通和更新时间，需友诚哥叫上LC一起讨论' },
+  { id:2, title:'CSCO内容策划和专家邀请', icon:'📢', status:'progress', note:'和友诚哥沟通，了解学会形式（此前未参与）' },
+  { id:3, title:'BC专题会日程和专家',    icon:'📅', status:'pending',  note:'LC初步计划及对接人' },
+  { id:4, title:'酒店询价',            icon:'🏨', status:'progress', note:'每周1-2次跟进' },
 ];
 
 const cmktStatusMap = {
