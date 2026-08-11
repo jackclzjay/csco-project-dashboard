@@ -483,6 +483,7 @@
   .cmkt-badge-pending{background:#f3e8ff;color:#7c3aed;}
   .cmkt-badge-progress{background:#fef3c7;color:#92400e;}
   .cmkt-badge-done{background:#dcfce7;color:#15803d;}
+  .cmkt-badge-halted{background:#fee2e2;color:#dc2626;}
   .cmkt-card-note{
     font-size:13px;
     color:var(--gray-500);
@@ -1005,15 +1006,18 @@ tasks.forEach(task => {
 // ===== CMKT Department Items =====
 const cmktItems = [
   { id:1, title:'展台和插页材料',       icon:'🖼️', status:'progress', note:'材料沟通和更新时间，需友诚哥叫上LC一起讨论' },
-  { id:2, title:'CSCO内容策划和专家邀请', icon:'📢', status:'progress', note:'和友诚哥沟通，了解学会形式（此前未参与）' },
-  { id:3, title:'BC专题会日程和专家',    icon:'📅', status:'pending',  note:'LC初步计划及对接人' },
+  { id:2, title:'我和CSCO内容策划',     icon:'📢', status:'halted',   note:'和友诚哥沟通，了解学会形式（此前未参与）' },
+  { id:3, title:'BC专题会日程和专家',    icon:'📅', status:'progress', note:'专家邀请中' },
   { id:4, title:'酒店询价',            icon:'🏨', status:'progress', note:'每周1-2次跟进' },
+  { id:5, title:'媒体PR',            icon:'📣', status:'progress', note:'询价进行中' },
+  { id:6, title:'会务公司比价',         icon:'🏢', status:'pending',  note:'待跟进' },
 ];
 
 const cmktStatusMap = {
   pending:  { cls:'cmkt-badge-pending',  text:'待跟进' },
   progress: { cls:'cmkt-badge-progress', text:'进行中' },
   done:     { cls:'cmkt-badge-done',     text:'已完成' },
+  halted:   { cls:'cmkt-badge-halted',   text:'中止' },
 };
 
 const cmktGrid = document.getElementById('cmktGrid');
