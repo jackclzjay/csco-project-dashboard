@@ -673,7 +673,7 @@
 
 <script>
 // ===== Config =====
-const today = new Date('2026-08-03T00:00:00');
+const today = new Date('2026-08-11T00:00:00');
 const eventStart = new Date('2026-09-16T00:00:00');
 const eventEnd = new Date('2026-09-19T00:00:00');
 
@@ -742,6 +742,24 @@ const tasks = [
     desc:'发起立项审批流程，明确各环节执行方与责任人',
     icon:'📝',
     progress:0
+  },
+  {
+    id:8,
+    title:'乳腺癌专题会',
+    deadline:'2026-09-18',
+    type:'milestone',
+    desc:'9月18日 18:00-19:00 · 南郊宾馆俱乐部大礼堂',
+    icon:'🎀',
+    progress:0
+  },
+  {
+    id:9,
+    title:'肺癌专题会',
+    deadline:'2026-09-19',
+    type:'milestone',
+    desc:'9月19日 12:30-13:30 · 山东大厦金色大厅',
+    icon:'🫁',
+    progress:0
   }
 ];
 
@@ -784,7 +802,7 @@ document.getElementById('totalTasks').textContent = tasks.length;
 document.getElementById('taskCount').textContent = tasks.length + '项';
 document.getElementById('statPeople').textContent = '374';
 
-document.getElementById('updateTime').textContent = formatDateFull(today) + ' 10:05';
+document.getElementById('updateTime').textContent = formatDateFull(today) + ' 13:41';
 
 // ===== Render Gantt =====
 const ganttStart = new Date('2026-07-25T00:00:00');
