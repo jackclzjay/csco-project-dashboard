@@ -674,7 +674,7 @@
 
 <script>
 // ===== Config =====
-const today = new Date('2026-08-12T00:00:00');
+const today = new Date('2026-08-24T00:00:00');
 const eventStart = new Date('2026-09-16T00:00:00');
 const eventEnd = new Date('2026-09-19T00:00:00');
 
@@ -693,18 +693,18 @@ const tasks = [
     title:'第一轮邀请沟通',
     deadline:'2026-08-03',
     type:'milestone',
-    desc:'召开第一轮邀请沟通会，同步大会信息与参会安排',
+    desc:'已于8月21日沟通完毕',
     icon:'📧',
-    progress:0
+    progress:100
   },
   {
     id:3,
     title:'第一轮邀请&团队注册截止',
     deadline:'2026-08-14',
     type:'task',
-    desc:'第一轮邀请收尾，团队完成CSCO大会统一注册报名',
+    desc:'已于8月18日完成，团队完成CSCO大会统一注册报名',
     icon:'✅',
-    progress:0
+    progress:100
   },
   {
     id:4,
@@ -740,9 +740,9 @@ const tasks = [
     title:'立项流程发起和执行方确定',
     deadline:'2026-08-01',
     type:'task',
-    desc:'发起立项审批流程，明确各环节执行方与责任人',
+    desc:'立项流程已发起，协议签署中',
     icon:'📝',
-    progress:0
+    progress:70
   },
   {
     id:8,
@@ -776,9 +776,9 @@ const tasks = [
     title:'专题会日程发送',
     deadline:'2026-08-20',
     type:'task',
-    desc:'专题会日程发送至周蔷邮箱',
+    desc:'专题会日程已发送至周蔷邮箱',
     icon:'📬',
-    progress:0,
+    progress:100,
     note:'发送至周蔷邮箱'
   },
   {
@@ -786,9 +786,9 @@ const tasks = [
     title:'日程插页画面发送',
     deadline:'2026-08-21',
     type:'task',
-    desc:'日程插页画面发送至周蔷邮箱',
+    desc:'日程插页画面已发送至周蔷邮箱',
     icon:'📄',
-    progress:0,
+    progress:100,
     note:'发送至周蔷邮箱 · 插页尺寸：B5竖版（185mm宽 × 258mm高）'
   }
 ];
@@ -832,7 +832,7 @@ document.getElementById('totalTasks').textContent = tasks.length;
 document.getElementById('taskCount').textContent = tasks.length + '项';
 document.getElementById('statPeople').textContent = '374';
 
-document.getElementById('updateTime').textContent = formatDateFull(today) + ' 09:41';
+document.getElementById('updateTime').textContent = formatDateFull(today) + ' 11:58';
 
 // ===== Render Gantt =====
 const ganttStart = new Date('2026-07-25T00:00:00');
@@ -1034,12 +1034,12 @@ tasks.forEach(task => {
 
 // ===== CMKT Department Items =====
 const cmktItems = [
-  { id:1, title:'展台和插页材料',       icon:'🖼️', status:'progress', note:'材料沟通和更新时间，需友诚哥叫上LC一起讨论' },
+  { id:1, title:'展台和插页材料',       icon:'🖼️', status:'progress', note:'设计中' },
   { id:2, title:'我和CSCO内容策划',     icon:'📢', status:'halted',   note:'和友诚哥沟通，了解学会形式（此前未参与）' },
   { id:3, title:'BC专题会日程和专家',    icon:'📅', status:'progress', note:'专家邀请中' },
   { id:4, title:'酒店询价',            icon:'🏨', status:'progress', note:'每周1-2次跟进' },
-  { id:5, title:'媒体PR',            icon:'📣', status:'progress', note:'询价进行中' },
-  { id:6, title:'会务公司比价',         icon:'🏢', status:'pending',  note:'待跟进' },
+  { id:5, title:'媒体PR',            icon:'📣', status:'progress', note:'专家邀请&排期中' },
+  { id:6, title:'会务公司比价',         icon:'🏢', status:'progress', note:'比价流程中' },
 ];
 
 const cmktStatusMap = {
