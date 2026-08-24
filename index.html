@@ -986,7 +986,8 @@ tasks.forEach(task => {
     badgeClass = 'badge-upcoming'; badgeText = '📋 待启动'; cardClass = 'status-upcoming'; progressColor = '#2563eb';
   }
 
-  const isUrgent = daysLeft <= 7;
+  const isDone = task.progress >= 100;
+  const isUrgent = !isDone && daysLeft <= 7;
 
   const startDateObj = task.startDate ? new Date(task.startDate + 'T00:00:00') : null;
   const dateRowHtml = startDateObj
@@ -1025,8 +1026,8 @@ tasks.forEach(task => {
       <span class="task-progress-text">${task.progress}%</span>
     </div>
     <div class="task-countdown ${isUrgent ? 'urgent' : ''}">
-      <span>${daysLeft > 0 ? '距截止还有' : (daysLeft === 0 ? '今天截止' : '已逾期')}</span>
-      <span class="days">${daysLeft > 0 ? daysLeft + ' 天' : (daysLeft === 0 ? '今天' : Math.abs(daysLeft) + ' 天')}</span>
+      <span>${isDone ? '✅ 已完成' : (daysLeft > 0 ? '距截止还有' : (daysLeft === 0 ? '今天截止' : '已逾期'))}</span>
+      <span class="days">${isDone ? formatDateFull(taskDate) : (daysLeft > 0 ? daysLeft + ' 天' : (daysLeft === 0 ? '今天' : Math.abs(daysLeft) + ' 天'))}</span>
     </div>
   `;
   tasksGrid.appendChild(card);
