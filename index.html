@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="lFSu2OjfBP68SJgFAh9s3r">
+<head data-page-node-id="PrGPmgujhflG4akRlBRjJE">
+<meta charset="UTF-8" data-page-node-id="ZHlPKuIU5AsRzj9SSzPK19">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="w41lAjEpyppRATnBF2zMWv">
 <title>CSCO学术年会 · 项目进度看板</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -339,6 +339,7 @@
   .task-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
   .task-card.status-upcoming{border-left-color:var(--primary);}
   .task-card.status-soon{border-left-color:var(--warning);}
+  .task-card.status-progress{border-left-color:#d97706;}
   .task-card.status-done{border-left-color:var(--success);}
   .task-card-header{
     display:flex;
@@ -358,6 +359,7 @@
   }
   .badge-upcoming{background:var(--primary-light);color:var(--primary-dark);}
   .badge-soon{background:#fef3c7;color:#92400e;}
+  .badge-progress{background:#fef3c7;color:#92400e;}
   .badge-done{background:#dcfce7;color:#15803d;}
   .task-meta{display:flex;flex-direction:column;gap:8px;}
   .task-meta-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--gray-500);line-height:1.5;}
@@ -535,31 +537,31 @@
   }
 </style>
 </head>
-<body>
+<body data-page-node-id="8RNP8F8LtePpGYc8j8kOYd">
 
 <!-- ===== Header ===== -->
-<div class="header">
-  <div class="header-content">
-    <div class="header-top">
-      <div class="header-left">
-        <span class="tag">📋 项目管理看板</span>
-        <h1>CSCO学术年会 · 参会项目</h1>
-        <div class="subtitle">
-          <span>2026年9月16日 - 19日</span>
-          <span class="dot"></span>
-          <span>第X届CSCO学术年会</span>
-          <span class="dot"></span>
-          <span id="todayDate"></span>
+<div class="header" data-page-node-id="zzY4YNPVGIcW5YeXZiq3bN">
+  <div class="header-content" data-page-node-id="W0Yvgz2rgqMWpBY0D6kgaO">
+    <div class="header-top" data-page-node-id="VEgwYn9JTxF31ZD8Eu1X4R">
+      <div class="header-left" data-page-node-id="Oriqyv4sP0BC13URsBkRb1">
+        <span class="tag" data-page-node-id="HwrxMhH9HsXo70C8JWC61q">📋 项目管理看板</span>
+        <h1 data-page-node-id="frDLsxjEb3xg7BJ3s5rQKo">CSCO学术年会 · 参会项目</h1>
+        <div class="subtitle" data-page-node-id="J5mfwChf9GHRPHaDi3yFPi">
+          <span data-page-node-id="pfVG9CQYPN4Y9a8hG6iHSe">2026年9月16日 - 19日</span>
+          <span class="dot" data-page-node-id="8fz6XsM1R2pKlBpIDzasBX"></span>
+          <span data-page-node-id="we2WCsBR99876bHWFxQgGR">第X届CSCO学术年会</span>
+          <span class="dot" data-page-node-id="yAeR5xWA4VPhIctNrgoBfm"></span>
+          <span id="todayDate" data-page-node-id="vqzGAv9IfaT41zJaehe3ME"></span>
         </div>
       </div>
-      <div class="header-right">
-        <div class="countdown-card">
-          <div class="num" id="daysToEvent">--</div>
-          <div class="label">距大会开幕</div>
+      <div class="header-right" data-page-node-id="4cHCtRYdEG9w8EEEa1qm66">
+        <div class="countdown-card" data-page-node-id="PCAD0zaRnWyJfwpO5vOUAX">
+          <div class="num" id="daysToEvent" data-page-node-id="pPCEEaCE6MLlYFzFjNYs6E">--</div>
+          <div class="label" data-page-node-id="ZQsITHFzxj0Ga7owxPGnaW">距大会开幕</div>
         </div>
-        <div class="countdown-card">
-          <div class="num" id="totalTasks">4</div>
-          <div class="label">计划任务数</div>
+        <div class="countdown-card" data-page-node-id="58PAN5XDR8YzmLfw5OEEnh">
+          <div class="num" id="totalTasks" data-page-node-id="bfV1VXkpdNNuZLlF469OW3">4</div>
+          <div class="label" data-page-node-id="ZRf5F3S2nsd2XwRcsRvwL0">计划任务数</div>
         </div>
       </div>
     </div>
@@ -567,106 +569,106 @@
 </div>
 
 <!-- ===== Main ===== -->
-<div class="main">
+<div class="main" data-page-node-id="QfY6IHZ4390S3hcHzByfSP">
 
   <!-- Stats Row -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-icon blue">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+  <div class="stats-row" data-page-node-id="GmJttUcwyFtzhKJUlv0RAa">
+    <div class="stat-card" data-page-node-id="eAFAwThci8Rkxk0HujMVr1">
+      <div class="stat-icon blue" data-page-node-id="zQCiK6OAfyCPTnz0PH1RDQ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="hMe84uJNZ7jvEwEX6KP9nB"><path d="M9 11l3 3L22 4" data-page-node-id="17ssocvFg1SC0AmjGmGAaI"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" data-page-node-id="UO8VJRoiTyt3slXPJl45FC"/></svg>
       </div>
-      <div class="stat-info">
-        <div class="stat-value" id="statDone">0</div>
-        <div class="stat-label">已完成任务</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon amber">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <div class="stat-info">
-        <div class="stat-value" id="statPending">4</div>
-        <div class="stat-label">待完成任务</div>
+      <div class="stat-info" data-page-node-id="AFK4TNv4LEX3OmreF4sHIQ">
+        <div class="stat-value" id="statDone" data-page-node-id="UEViTg9Ger3i1u6w1wcEyh">0</div>
+        <div class="stat-label" data-page-node-id="ALHvQkhIPgvwgxfE5AF0wi">已完成任务</div>
       </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon green">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <div class="stat-card" data-page-node-id="c5uheuKACzQpwS87F7SuSw">
+      <div class="stat-icon amber" data-page-node-id="cgUhqzAv77iDUxlz53zHhh">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="nDl55HEPAqrrgEWMOrof8O"><circle cx="12" cy="12" r="10" data-page-node-id="lOePtFN4BLojpBQTUPlLkL"/><polyline points="12 6 12 12 16 14" data-page-node-id="GOfhNw72UG5Pa1HsuDENkv"/></svg>
       </div>
-      <div class="stat-info">
-        <div class="stat-value" id="statProgress">0%</div>
-        <div class="stat-label">整体进度</div>
+      <div class="stat-info" data-page-node-id="XuroUrCvmEwtX6takmMZkg">
+        <div class="stat-value" id="statPending" data-page-node-id="X03o5JDMlWtedImaJ1IfCQ">4</div>
+        <div class="stat-label" data-page-node-id="hC1arCX5Vx4Frk3PzepfCM">待完成任务</div>
       </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon purple">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div class="stat-card" data-page-node-id="ZMf4P0cgcjNzd4CEC62Ow4">
+      <div class="stat-icon green" data-page-node-id="obUMjbx2gmFLo0Qmdatv5W">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="Nfv4015IGToaWfAWLjkBRO"><path d="M22 12h-4l-3 9L9 3l-3 9H2" data-page-node-id="FMvOp7DSefkGFTPUhX457g"/></svg>
       </div>
-      <div class="stat-info">
-        <div class="stat-value" id="statPeople">待定</div>
-        <div class="stat-label">立项人数</div>
+      <div class="stat-info" data-page-node-id="GoTO30ZamCz0eolSSUh7to">
+        <div class="stat-value" id="statProgress" data-page-node-id="c8ibYEk6ZlrmMd1sJT29PY">0%</div>
+        <div class="stat-label" data-page-node-id="qmlWIBvIfrfdv6AkIetEjh">整体进度</div>
+      </div>
+    </div>
+    <div class="stat-card" data-page-node-id="8cEvujcqyes3uDl9kp9Zx2">
+      <div class="stat-icon purple" data-page-node-id="4SbzHF6BGpSxbVU6D4oD3B">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="lkTIxAkXz3gQyXhJ121ehI"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" data-page-node-id="fu9IulY18HA265Ty9VH1Mp"/><circle cx="9" cy="7" r="4" data-page-node-id="9xX2XP9SxgUTy2RUyGcMtr"/><path d="M23 21v-2a4 4 0 0 0-3-3.87" data-page-node-id="BDiI5JCPUHDkkTdjptTrwC"/><path d="M16 3.13a4 4 0 0 1 0 7.75" data-page-node-id="elCeTwTM3TB2VTp2SV1tfc"/></svg>
+      </div>
+      <div class="stat-info" data-page-node-id="JOzpDdtKsdytaLtUoUxUgp">
+        <div class="stat-value" id="statPeople" data-page-node-id="bInFCNHgRQ4yERe74O76b2">待定</div>
+        <div class="stat-label" data-page-node-id="tHiaJToF2CbrrBZRRJhtCt">立项人数</div>
       </div>
     </div>
   </div>
 
   <!-- Gantt Timeline -->
-  <div class="gantt-section">
-    <div class="section-title">
-      <span class="bar"></span>
-      <span>项目时间轴</span>
-      <span class="count">Gantt View</span>
+  <div class="gantt-section" data-page-node-id="9uorB4FfctQzk3rTsVbQAY">
+    <div class="section-title" data-page-node-id="0lGO6juzlSHKaNuvttZgk4">
+      <span class="bar" data-page-node-id="S4mHJ4pAEIoG1xKYfGhziz"></span>
+      <span data-page-node-id="HMdws7eojbVKe76FCQUOU3">项目时间轴</span>
+      <span class="count" data-page-node-id="spG5EFWBQDFY1F97ogHSAW">Gantt View</span>
     </div>
-    <div class="gantt-wrap">
-      <div class="gantt-header">
-        <div class="gantt-header-label">任务 / 里程碑</div>
-        <div class="gantt-months" id="ganttMonths"></div>
+    <div class="gantt-wrap" data-page-node-id="VCDlo51i1ljmPphZg4oEw7">
+      <div class="gantt-header" data-page-node-id="dhQwAfDR2DRSFnLgNNQyGe">
+        <div class="gantt-header-label" data-page-node-id="QGXur9JY5huAmeTax5Fuaa">任务 / 里程碑</div>
+        <div class="gantt-months" id="ganttMonths" data-page-node-id="1mkiCJCxVA9VKJW9gA4Y5p"></div>
       </div>
-      <div class="gantt-body" id="ganttBody"></div>
+      <div class="gantt-body" id="ganttBody" data-page-node-id="L4ixdhlaqwlAT4CBmDoxZD"></div>
     </div>
   </div>
 
   <!-- Task Cards -->
-  <div class="tasks-section">
-    <div class="section-title">
-      <span class="bar"></span>
-      <span>任务详情</span>
-      <span class="count" id="taskCount">4项</span>
+  <div class="tasks-section" data-page-node-id="De5kucv4hHmID10Abc11me">
+    <div class="section-title" data-page-node-id="85jsguUsRRLoI1jFDdiFyr">
+      <span class="bar" data-page-node-id="tmgs7WAvVHBHGKpMvM9FIH"></span>
+      <span data-page-node-id="h0EhUstcmb6D2sSgCA3TzZ">任务详情</span>
+      <span class="count" id="taskCount" data-page-node-id="kLx9rHFySHFzckJ4vXp0gP">4项</span>
     </div>
-    <div class="tasks-grid" id="tasksGrid"></div>
+    <div class="tasks-grid" id="tasksGrid" data-page-node-id="68v0l3pWOJBq5Pg5eJCJ1t"></div>
   </div>
 
   <!-- CMKT Section -->
-  <div class="cmkt-section">
-    <div class="section-title">
-      <span class="bar"></span>
-      <span>CMKT部门跟进事项</span>
-      <span class="count" id="cmktCount">5项</span>
+  <div class="cmkt-section" data-page-node-id="p2WNn8Xzaa1ETDDDMwFT5G">
+    <div class="section-title" data-page-node-id="2QJDiOP8HNsSL1KGUy72iD">
+      <span class="bar" data-page-node-id="kMKsz2GmGXfDPDSgfkbbPw"></span>
+      <span data-page-node-id="vmaUX5H6xHKv3WdTLpR3nC">CMKT部门跟进事项</span>
+      <span class="count" id="cmktCount" data-page-node-id="821Jmw30VSsNSX8EXB7spn">5项</span>
     </div>
-    <div class="cmkt-grid" id="cmktGrid"></div>
+    <div class="cmkt-grid" id="cmktGrid" data-page-node-id="hRGygYlCeJOY1Np14O6g8k"></div>
   </div>
 
   <!-- Event Banner -->
-  <div class="event-section">
-    <div class="event-banner">
-      <div class="event-info">
-        <div class="label">🎯 核心里程碑</div>
-        <div class="name">CSCO学术年会正式召开</div>
-        <div class="date">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>2026年9月16日 - 19日 · 为期4天</span>
+  <div class="event-section" data-page-node-id="HT3PmVBq8TPqKHkYX9IFOs">
+    <div class="event-banner" data-page-node-id="Dyh5wjQDuE7D5Q8EhSnGD6">
+      <div class="event-info" data-page-node-id="mtsn5MApJGEPpKZIgS7OKv">
+        <div class="label" data-page-node-id="6HZFfrCyCROWkxhzPLKtHc">🎯 核心里程碑</div>
+        <div class="name" data-page-node-id="m9EflmEOUuBDmsdHOcWZYc">CSCO学术年会正式召开</div>
+        <div class="date" data-page-node-id="VYFlXFvvmCA1428gAJgMmw">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="xY9d2bxtgE7Jzh99d1uPlS"><rect x="3" y="4" width="18" height="18" rx="2" data-page-node-id="yMLJDJe5PChGMXB4MPG2c7"/><line x1="16" y1="2" x2="16" y2="6" data-page-node-id="zte5f3N2y9BarT7hYP0Wc5"/><line x1="8" y1="2" x2="8" y2="6" data-page-node-id="Yp0ZnESUtoFjrUVpyTDZXz"/><line x1="3" y1="10" x2="21" y2="10" data-page-node-id="Cr34nAcJFFnouR3TB62ckA"/></svg>
+          <span data-page-node-id="rpwn8p8wouUknhM3vGWk6Z">2026年9月16日 - 19日 · 为期4天</span>
         </div>
       </div>
-      <div class="event-countdown">
-        <div class="big-num" id="eventBigNum">--</div>
-        <div class="text">天</div>
+      <div class="event-countdown" data-page-node-id="gwqahg9Yl1yw9zH7j3HCPy">
+        <div class="big-num" id="eventBigNum" data-page-node-id="HWeH1pARDy97XdBEn9Jl5B">--</div>
+        <div class="text" data-page-node-id="ibuG47kekAAlx7q0YoOyqk">天</div>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-    <div class="updated">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span>最后更新：<span id="updateTime"></span> · 数据自动计算</span>
+  <div class="footer" data-page-node-id="E0rJ4ZvfGhmHaaA9oJlKO3">
+    <div class="updated" data-page-node-id="fsUYKnIGWPYugbeOCTehZ2">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="OEbDgsXlN8EtYxkhTIVIuB"><circle cx="12" cy="12" r="10" data-page-node-id="FGkRYrUEdZocxTJPZdQ1Y6"/><polyline points="12 6 12 12 16 14" data-page-node-id="qPosyCiXAHY92LKy1CA1YM"/></svg>
+      <span data-page-node-id="PieT0cdyRlQm9DV42rB8M8">最后更新：<span id="updateTime" data-page-node-id="jPh1L2MD8xxiLeCIYgfYwB"></span> · 数据自动计算</span>
     </div>
   </div>
 
@@ -674,7 +676,7 @@
 
 <script>
 // ===== Config =====
-const today = new Date('2026-08-24T00:00:00');
+const today = new Date('2026-09-01T00:00:00');
 const eventStart = new Date('2026-09-16T00:00:00');
 const eventEnd = new Date('2026-09-19T00:00:00');
 
@@ -709,7 +711,7 @@ const tasks = [
   {
     id:4,
     title:'第二轮行前沟通',
-    deadline:'2026-09-01',
+    deadline:'2026-09-04',
     type:'milestone',
     desc:'召开第二轮行前沟通会，确认行程、住宿、分工等细节',
     icon:'🧳',
@@ -719,11 +721,11 @@ const tasks = [
     id:5,
     title:'第二轮行程确定',
     startDate:'2026-08-14',
-    deadline:'2026-09-01',
+    deadline:'2026-09-10',
     type:'task',
     desc:'确定第二轮行程安排，注册替换名额保留10%',
     icon:'🧭',
-    progress:0,
+    progress:50,
     note:'注册替换名额 10%'
   },
   {
@@ -798,7 +800,8 @@ const tasks = [
     type:'task',
     desc:'TNBC专场VIP安排',
     icon:'🎟️',
-    progress:50
+    progress:50,
+    status:'followup'
   },
   {
     id:14,
@@ -807,7 +810,8 @@ const tasks = [
     type:'task',
     desc:'HR+BC专场VIP安排',
     icon:'🎟️',
-    progress:50
+    progress:50,
+    status:'followup'
   },
   {
     id:15,
@@ -816,7 +820,8 @@ const tasks = [
     type:'task',
     desc:'EC专场VIP安排',
     icon:'🎟️',
-    progress:50
+    progress:50,
+    status:'followup'
   }
 ];
 
@@ -859,7 +864,7 @@ document.getElementById('totalTasks').textContent = tasks.length;
 document.getElementById('taskCount').textContent = tasks.length + '项';
 document.getElementById('statPeople').textContent = '374';
 
-document.getElementById('updateTime').textContent = formatDateFull(today) + ' 11:58';
+document.getElementById('updateTime').textContent = formatDateFull(today) + ' 13:38';
 
 // ===== Render Gantt =====
 const ganttStart = new Date('2026-07-25T00:00:00');
@@ -902,6 +907,8 @@ tasks.forEach((task, taskIdx) => {
   let statusClass, dotColor, statusColor;
   if(task.progress >= 100){
     statusClass = 'task-done'; dotColor = '#16a34a'; statusColor = '#16a34a';
+  } else if(task.progress > 0){
+    statusClass = 'task-soon'; dotColor = '#f59e0b'; statusColor = '#d97706';
   } else if(daysLeft <= 7){
     statusClass = 'task-soon'; dotColor = '#f59e0b'; statusColor = '#d97706';
   } else {
@@ -1007,6 +1014,8 @@ tasks.forEach(task => {
   let badgeClass, badgeText, cardClass, progressColor;
   if(task.progress >= 100){
     badgeClass = 'badge-done'; badgeText = '✅ 已完成'; cardClass = 'status-done'; progressColor = '#16a34a';
+  } else if(task.progress > 0){
+    badgeClass = 'badge-progress'; badgeText = task.status === 'followup' ? '📌 跟进中' : '🚧 进行中'; cardClass = 'status-progress'; progressColor = '#d97706';
   } else if(daysLeft <= 7){
     badgeClass = 'badge-soon'; badgeText = '⏰ 即将到期'; cardClass = 'status-soon'; progressColor = '#f59e0b';
   } else {
@@ -1067,7 +1076,7 @@ const cmktItems = [
   { id:3, title:'BC专题会日程和专家',    icon:'📅', status:'progress', note:'专家邀请中' },
   { id:4, title:'酒店询价',            icon:'🏨', status:'progress', note:'每周1-2次跟进' },
   { id:5, title:'媒体PR',            icon:'📣', status:'progress', note:'专家邀请&排期中' },
-  { id:6, title:'会务公司比价',         icon:'🏢', status:'progress', note:'比价流程中' },
+  { id:6, title:'会务公司比价',         icon:'🏢', status:'done', note:'已完成比价' },
 ];
 
 const cmktStatusMap = {
